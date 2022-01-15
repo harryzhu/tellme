@@ -22,20 +22,13 @@ var (
 // gossipCmd represents the gossip command
 var gossipCmd = &cobra.Command{
 	Use:   "gossip",
-	Short: "A brief description of your command",
+	Short: "send mail",
 	Long:  `-`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Println("gossip")
-
-		//ak, _ := util.GetAccessKey("email", "pass")
-		//log.Println(ak)
-
 		u, p, err := util.ParseAccessKey(AccessKey)
 		if err != nil {
 			log.Println(err)
 		}
-
-		//log.Println(u, p)
 
 		mc := &util.MailConfig
 		mc.SmtpHost = SmtpHost
