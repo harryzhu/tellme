@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	SmtpHost  string
-	SmtpPort  string
+	SMTPHost  string
+	SMTPPort  string
 	AccessKey string
 )
 
@@ -30,7 +30,7 @@ func Execute() {
 }
 
 func init() {
-	SmtpHost = util.GetEnv("TELLOPSSMTPHOST", "smtp.office365.com")
-	SmtpPort = util.GetEnv("TELLOPSSMTPPORT", "587")
+	SMTPHost = util.GetEnv("TELLOPSSMTPHOST", "smtp.office365.com")
+	SMTPPort = util.GetEnv("TELLOPSSMTPPORT", "587")
 	AccessKey = util.GetEnv("TELLOPSACCESSKEY", "yiKSLz4ujLzPmJQsLf2kCTaI2HXlz61GBLkJZN2GDRM/xvXQIrCV4oMKDYweKfhj")
 }

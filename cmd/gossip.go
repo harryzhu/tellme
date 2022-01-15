@@ -30,11 +30,11 @@ var gossipCmd = &cobra.Command{
 			log.Println(err)
 		}
 
-		mc := &util.MailConfig
-		mc.SmtpHost = SmtpHost
-		mc.SmtpPort = SmtpPort
-		mc.SmtpUsername = u
-		mc.SmtpPassword = p
+		mc := util.NewMailSetup()
+		mc.SMTPHost = SMTPHost
+		mc.SMTPPort = SMTPPort
+		mc.SMTPUsername = u
+		mc.SMTPPassword = p
 
 		mc.MailTitle = MailTitle
 		mc.MailFile = MailFile
@@ -44,7 +44,7 @@ var gossipCmd = &cobra.Command{
 		mc.MailCc = strings.Split(strings.ReplaceAll(MailCc, ",", ";"), ";")
 		mc.MailBcc = strings.Split(strings.ReplaceAll(MailBcc, ",", ";"), ";")
 
-		mc.SmtpSendMailStartTLS()
+		mc.SMTPSendMailStartTLS()
 
 	},
 }
