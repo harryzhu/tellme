@@ -39,12 +39,21 @@ var gossipCmd = &cobra.Command{
 		mc.MailTitle = MailTitle
 		mc.MailFile = MailFile
 
-		mc.MailFrom = u
+		if MailFrom != "" {
+			mc.MailFrom = MailFrom
+		} else {
+			mc.MailFrom = u
+		}
+
 		mc.MailTo = strings.Split(strings.ReplaceAll(MailTo, ",", ";"), ";")
 		mc.MailCc = strings.Split(strings.ReplaceAll(MailCc, ",", ";"), ";")
 		mc.MailBcc = strings.Split(strings.ReplaceAll(MailBcc, ",", ";"), ";")
 
-		mc.SMTPSendMailStartTLS()
+		if strings.ToLower(SMTPStartTLS) == "true" {
+			mc.SMTPSendMailStartTLS()
+		} else {
+			mc.SMTPSendMail()
+		}
 
 	},
 }
@@ -54,6 +63,7 @@ func init() {
 
 	gossipCmd.Flags().StringVar(&MailTitle, "title", "", "mail title")
 	gossipCmd.Flags().StringVar(&MailFile, "file", "", "mail content from the file")
+	gossipCmd.Flags().StringVar(&MailFrom, "from", "", "mail sender")
 	gossipCmd.Flags().StringVar(&MailTo, "to", "", "to address(es),split by semicolon(;), add quotation-marks if the address includes dash(-).")
 	gossipCmd.Flags().StringVar(&MailCc, "cc", "", "cc address(es),split by semicolon(;), add quotation-marks if the address includes dash(-).")
 	gossipCmd.Flags().StringVar(&MailBcc, "bcc", "", "bcc address(es),split by semicolon(;), add quotation-marks if the address includes dash(-).")
