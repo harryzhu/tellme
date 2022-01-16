@@ -27,7 +27,7 @@ var gossipCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		u, p, err := util.ParseAccessKey(AccessKey)
 		if err != nil {
-			log.Println(err)
+			log.Fatal(err)
 		}
 
 		mc := util.NewMailSetup()
