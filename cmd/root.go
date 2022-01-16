@@ -40,5 +40,5 @@ func init() {
 	SMTPHost = util.GetEnv("TELLOPSSMTPHOST", "smtp.office365.com")
 	SMTPPort = util.GetEnv("TELLOPSSMTPPORT", "587")
 	SMTPStartTLS = util.GetEnv("TELLOPSSMTPSTARTTLS", "yes")
-	AccessKey = util.GetEnv("TELLOPSACCESSKEY", "yiKSLz4ujLzPmJQsLf2kCTaI2HXlz61GBLkJZN2GDRM/xvXQIrCV4oMKDYweKfhj")
+	AccessKey = util.GetEnv("TELLOPSACCESSKEY", "kxooRczff0V1L8C81uBrcg==")
 }
