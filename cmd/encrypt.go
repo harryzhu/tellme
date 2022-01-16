@@ -20,7 +20,7 @@ var (
 var encryptCmd = &cobra.Command{
 	Use:   "encrypt",
 	Short: "generate accesskey for sub-command: gossip.",
-	Long:  `--username=""  --password="" to generate the accesskey, then set env var TELLOPSACCESSKEY for gossip.`,
+	Long:  `--username=""  --password="" to generate the accesskey, then set env var TELLMEACCESSKEY for gossip.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ak, err := util.GetAccessKey(MailUsername, MailPassword)
 		if err != nil {
