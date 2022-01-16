@@ -45,6 +45,10 @@ var gossipCmd = &cobra.Command{
 			mc.MailFrom = u
 		}
 
+		if mc.MailFrom == "" {
+			log.Println("sender's email is empty, pls use --from=  to specify")
+		}
+
 		mc.MailTo = strings.Split(strings.ReplaceAll(MailTo, ",", ";"), ";")
 		mc.MailCc = strings.Split(strings.ReplaceAll(MailCc, ",", ";"), ";")
 		mc.MailBcc = strings.Split(strings.ReplaceAll(MailBcc, ",", ";"), ";")
