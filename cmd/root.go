@@ -21,10 +21,10 @@ var rootCmd = &cobra.Command{
 	Long: `
 	general send-mail tool.
 	env vars: 
-	TELLOPSSMTPHOST="", 
-	TELLOPSSMTPPORT="", 
-	TELLOPSSMTPSTARTTLS="yes" or "no", 
-	TELLOPSACCESSKEY=""`,
+	TELLMESMTPHOST="", 
+	TELLMESMTPPORT="", 
+	TELLMESMTPSTARTTLS="yes" or "no", 
+	TELLMEACCESSKEY=""`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -37,8 +37,8 @@ func Execute() {
 }
 
 func init() {
-	SMTPHost = util.GetEnv("TELLOPSSMTPHOST", "smtp.office365.com")
-	SMTPPort = util.GetEnv("TELLOPSSMTPPORT", "587")
-	SMTPStartTLS = util.GetEnv("TELLOPSSMTPSTARTTLS", "yes")
-	AccessKey = util.GetEnv("TELLOPSACCESSKEY", "kxooRczff0V1L8C81uBrcg==")
+	SMTPHost = util.GetEnv("TELLMESMTPHOST", "smtp.office365.com")
+	SMTPPort = util.GetEnv("TELLMESMTPPORT", "587")
+	SMTPStartTLS = util.GetEnv("TELLMESMTPSTARTTLS", "yes")
+	AccessKey = util.GetEnv("TELLMEACCESSKEY", "kxooRczff0V1L8C81uBrcg==")
 }

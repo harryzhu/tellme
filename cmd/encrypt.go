@@ -26,7 +26,7 @@ var encryptCmd = &cobra.Command{
 		if err != nil {
 			log.Println(err)
 		}
-		log.Printf("TELLOPSACCESSKEY=\"%s\"", ak)
+		log.Printf("TELLMEACCESSKEY=\"%s\"", ak)
 	},
 }
 
