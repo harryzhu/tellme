@@ -1,30 +1,48 @@
+/*
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+
+*/
 package cmd
 
 import (
+	"fmt"
 	"os"
 
-	"github.com/harryzhu/util"
 	"github.com/spf13/cobra"
 )
 
 var (
-	SMTPHost     string
-	SMTPPort     string
-	SMTPStartTLS string
-	AccessKey    string
+	AccessKey  string
+	smtpaccess *SmtpAccess
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "tellme via email",
-	Short: "tellme gossip | encrypt",
-	Long: `
-	general send-mail tool.
-	env vars: 
-	TELLMESMTPHOST="", 
-	TELLMESMTPPORT="", 
-	TELLMESMTPSTARTTLS="yes" or "no", 
-	TELLMEACCESSKEY=""`,
+	Use:   "tellme",
+	Short: "",
+	Long:  ``,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+
+		fmt.Println("pre")
+
+		smtpaccess = NewSmtpAccess("", "", "", "", "", "")
+		if AccessKey != "" {
+			sa, err := smtpaccess.Unseal(AccessKey)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println("using config: ", sa.Name)
+			}
+
+		}
+
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+	PersistentPostRun: func(cmd *cobra.Command, args []string) {
+		fmt.Println("post")
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -37,8 +55,7 @@ func Execute() {
 }
 
 func init() {
-	SMTPHost = util.GetEnv("TELLMESMTPHOST", "smtp.office365.com")
-	SMTPPort = util.GetEnv("TELLMESMTPPORT", "587")
-	SMTPStartTLS = util.GetEnv("TELLMESMTPSTARTTLS", "yes")
-	AccessKey = util.GetEnv("TELLMEACCESSKEY", "kxooRczff0V1L8C81uBrcg==")
+
+	rootCmd.PersistentFlags().StringVar(&AccessKey, "accesskey", "", "accesskey")
+
 }

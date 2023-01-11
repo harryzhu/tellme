@@ -1,10 +1,10 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 
 */
 package main
 
-import "tellops/cmd"
+import "tellme/cmd"
 
 func main() {
 	cmd.Execute()
