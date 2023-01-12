@@ -75,7 +75,7 @@ func (sa *SmtpAccess) Send(m *Mail) error {
 	}
 
 	if sa.Auth == "login" {
-		return sa.SendWithPlain(m)
+		return sa.SendWithStartTLS(m)
 	}
 
 	return nil
@@ -129,12 +129,17 @@ func (sa *SmtpAccess) SendWithStartTLS(m *Mail) error {
 		}
 	}
 
-	auth := NewLoginAuth(sa.User, sa.Password)
+	a := NewLoginAuth(sa.User, sa.Password)
 	if ok, _ := smtpClient.Extension("AUTH"); ok {
-		if err := smtpClient.Auth(auth); err != nil {
+		if err := smtpClient.Auth(a); err != nil {
 			fmt.Println(err)
 			return err
 		}
+	}
+
+	if err := smtpClient.Mail(m.From); err != nil {
+		fmt.Println(err)
+		return err
 	}
 
 	for _, addr := range Tos {
@@ -147,7 +152,6 @@ func (sa *SmtpAccess) SendWithStartTLS(m *Mail) error {
 		}
 	}
 
-	smtpClient.Mail(m.From)
 	w, err := smtpClient.Data()
 	if err != nil {
 		fmt.Println(err)

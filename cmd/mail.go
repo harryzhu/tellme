@@ -21,8 +21,8 @@ type Mail struct {
 func NewMail(from, to, cc string) *Mail {
 	return &Mail{
 		From: from,
-		To:   to,
-		Cc:   cc,
+		To:   strings.ReplaceAll(to, ",", ";"),
+		Cc:   strings.ReplaceAll(cc, ",", ";"),
 	}
 }
 
@@ -44,9 +44,9 @@ func (m *Mail) WithSignature(s string) *Mail {
 func (m *Mail) Compose() *Mail {
 	headers := make(map[string]string)
 	headers["From"] = m.From
-	headers["To"] = strings.ReplaceAll(m.To, ",", ";")
+	headers["To"] = m.To
 	if len(m.Cc) > 0 {
-		headers["Cc"] = strings.ReplaceAll(m.Cc, ",", ";")
+		headers["Cc"] = m.Cc
 	}
 
 	headers["Subject"] = m.Subject
