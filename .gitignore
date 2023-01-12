@@ -1,5 +1,6 @@
 .DS_Store
 tellme
+tellme.exe
 *.log
 *.zip
 *.gz
