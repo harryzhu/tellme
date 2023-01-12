@@ -36,10 +36,15 @@ var sendmailCmd = &cobra.Command{
 	i.e. (localhost:25): --accesskey="Zt5BmhsR9C8C029xblTUkhR0JJazlduCVdKZIIX2aPqN7HQzd9/Bq4HPp6qU0DkBD4zT/gA1ujsdMfSLkI0RhYR8gjXAKfXMwEf4beL0u3Sgp61r2sr+muwzbdHZwMkdXVygllIPhHHu7ODspUcf6A=="
 	`,
 	PreRun: func(cmd *cobra.Command, args []string) {
+		LoadAccessKey()
+		if smtpaccess.Host == "" {
+			panic("smtp host cannot be empty")
+		}
+
 		mBody, err := GetFileContent(File)
 		if err != nil {
 			fmt.Println(err)
-			//panic("cannot read file:" + File)
+			panic("cannot read file:" + File)
 		}
 		m = NewMail(From, To, Cc).WithSubject(Subject).WithBody(string(mBody)).WithSignature(Signature)
 		m.Compose()

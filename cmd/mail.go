@@ -57,7 +57,7 @@ func (m *Mail) Compose() *Mail {
 	msg += "\r\n" + m.Body
 
 	if m.Signature != "" {
-		msg += "\r\n<hr/>" + m.Signature
+		msg += "<br/><br/>==========<br/>" + m.Signature
 	}
 
 	m.Message = msg

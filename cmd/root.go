@@ -5,7 +5,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,18 +19,10 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "tellme",
 	Short: "",
-	Long:  ``,
+	Long: `you can use --accesskey="..." in command-line or use env variable "TELLMEACCESSKEY",
+	export TELLMEACCESSKEY=Your-AccessKey
+	`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if AccessKey != "" {
-			smtpaccess = NewSmtpAccess("", "", "", "", "", "")
-			sa, err := smtpaccess.Unseal(AccessKey)
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				fmt.Println("using config: ", sa.Name)
-			}
-
-		}
 
 	},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -52,7 +43,5 @@ func Execute() {
 }
 
 func init() {
-
 	rootCmd.PersistentFlags().StringVar(&AccessKey, "accesskey", "", "accesskey")
-
 }

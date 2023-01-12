@@ -196,3 +196,34 @@ func GetFileContent(src string) (body []byte, err error) {
 
 	return body, nil
 }
+
+func LoadAccessKey() error {
+	smtpaccess = NewSmtpAccess("", "", "", "", "", "")
+	ak := ""
+
+	if AccessKey != "" {
+		ak = AccessKey
+		fmt.Println("using accesskey inline")
+	} else {
+		AccessKeyEnv := GetEnv("TELLMEACCESSKEY", "")
+		if AccessKeyEnv != "" {
+			ak = AccessKeyEnv
+			fmt.Println("using accesskey from env variable")
+		}
+	}
+
+	if ak == "" {
+		errText := "accesskey cannot be empty, set env-var \"TELLMEACCESSKEY\" or use --accesskey=\"...\" inline"
+		fmt.Println(errText)
+		return errors.New(errText)
+	}
+
+	sa, err := smtpaccess.Unseal(ak)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	} else {
+		fmt.Println("using config: ", sa.Name)
+	}
+	return nil
+}
