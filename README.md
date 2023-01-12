@@ -21,7 +21,14 @@ send mail in one-line script
  i.e.(for 127.0.0.1:25 smtp server):
 
   `--accesskey="Zt5BmhsR9C8C029xblTUkhR0JJazlduCVdKZIIX2aPqN7HQzd9/Bq4HPp6qU0DkBQ7H243gI2akWljyv1Jpsh6sAg/4vTE+IpMbSTV6LkC+IVR2zS1B6z+XOWqkBrSNOj/4hm0DedQPxGcZ434LVbQ=="`
-	
+
+ if you set one env variable `TELLMEACCESSKEY`:
+ i.e.
+ ```
+ export TELLMEACCESSKEY="Zt5BmhsR9C8C029xblTUkhR0JJazlduCVdKZIIX2aPqN7HQzd9/Bq4HPp6qU0DkBQ7H243gI2akWljyv1Jpsh6sAg/4vTE+IpMbSTV6LkC+IVR2zS1B6z+XOWqkBrSNOj/4hm0DedQPxGcZ434LVbQ=="
+ ```
+ it will be loaded automatically.
+ if you set `TELLMEACCESSKEY` and use `--accesskey` meanwhile, it will ignore env-var value and use `--accesskey`
 
 ## sendmail
 ### read a file(within mail-content) and then send out
