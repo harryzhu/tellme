@@ -26,8 +26,11 @@ var (
 // sendmailCmd represents the sendmail command
 var sendmailCmd = &cobra.Command{
 	Use:   "sendmail",
-	Short: "A brief description of your command",
-	Long:  ` `,
+	Short: "send mail anonymously or with plain-auth or with startTLS.",
+	Long: `--from=abc@def.com --to=u1@test.com;u2@beta.com -cc=u1@sand.com;u2@alpha.com
+	--subject="mail-title" --file="mail-content: the file-path of the mail-body" 
+	--signature="append someting after the mail-content"
+	`,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		mBody, err := GetFileContent(File)
 		if err != nil {
