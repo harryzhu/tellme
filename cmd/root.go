@@ -22,11 +22,8 @@ var rootCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-
-		fmt.Println("pre")
-
-		smtpaccess = NewSmtpAccess("", "", "", "", "", "")
 		if AccessKey != "" {
+			smtpaccess = NewSmtpAccess("", "", "", "", "", "")
 			sa, err := smtpaccess.Unseal(AccessKey)
 			if err != nil {
 				fmt.Println(err)
@@ -41,7 +38,7 @@ var rootCmd = &cobra.Command{
 
 	},
 	PersistentPostRun: func(cmd *cobra.Command, args []string) {
-		fmt.Println("post")
+
 	},
 }
 

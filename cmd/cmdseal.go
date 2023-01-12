@@ -40,7 +40,7 @@ func init() {
 	sealCmd.Flags().StringVar(&Name, "name", "smtp_conf_v1", " smtp description")
 	sealCmd.Flags().StringVar(&Host, "host", "", " smtp Host")
 	sealCmd.Flags().StringVar(&Port, "port", "25", " smtp Port")
-	sealCmd.Flags().StringVar(&Auth, "auth", "plain", "smtp Auth: plain/login")
+	sealCmd.Flags().StringVar(&Auth, "auth", "", "smtp Auth: plain/login")
 	sealCmd.Flags().StringVar(&User, "user", "", " smtp User")
 	sealCmd.Flags().StringVar(&Password, "password", "", " smtp Password")
 }

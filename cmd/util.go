@@ -1,9 +1,14 @@
 package cmd
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/smtp"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -60,6 +65,130 @@ func (sa *SmtpAccess) Unseal(pwd string) (*SmtpAccess, error) {
 	return sa, nil
 }
 
+func (sa *SmtpAccess) Send(m *Mail) error {
+	if sa.Auth == "" && sa.User == "" && sa.Password == "" {
+		return sa.SendWithAnonymous(m)
+	}
+
+	if sa.Auth == "plain" {
+		return sa.SendWithPlain(m)
+	}
+
+	if sa.Auth == "login" {
+		return sa.SendWithPlain(m)
+	}
+
+	return nil
+}
+
+func (sa *SmtpAccess) SendWithAnonymous(m *Mail) error {
+	hostPort := strings.Join([]string{sa.Host, sa.Port}, ":")
+	Tos := strings.Split(m.To, ";")
+	err := smtp.SendMail(hostPort, nil, m.From, Tos, []byte(m.Message))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	fmt.Println("SendWithAnonymous ...")
+	return nil
+}
+
+func (sa *SmtpAccess) SendWithPlain(m *Mail) error {
+	hostPort := strings.Join([]string{sa.Host, sa.Port}, ":")
+	Tos := strings.Split(m.To, ";")
+	auth := smtp.PlainAuth("", sa.User, sa.Password, sa.Host)
+	err := smtp.SendMail(hostPort, auth, m.From, Tos, []byte(m.Message))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	fmt.Println("SendWithPlain ...")
+	return nil
+}
+
+func (sa *SmtpAccess) SendWithStartTLS(m *Mail) error {
+	hostPort := strings.Join([]string{sa.Host, sa.Port}, ":")
+	Tos := strings.Split(m.To, ";")
+
+	smtpClient, err := smtp.Dial(hostPort)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer smtpClient.Close()
+
+	fmt.Println("SendWithStartTLS ...")
+
+	if ok, _ := smtpClient.Extension("STARTTLS"); ok {
+		cfg := &tls.Config{
+			InsecureSkipVerify: true,
+			ServerName:         sa.Host}
+		if err := smtpClient.StartTLS(cfg); err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
+	auth := NewLoginAuth(sa.User, sa.Password)
+	if ok, _ := smtpClient.Extension("AUTH"); ok {
+		if err := smtpClient.Auth(auth); err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
+	for _, addr := range Tos {
+		if strings.Index(addr, "@") < 0 {
+			continue
+		}
+		if err := smtpClient.Rcpt(addr); err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
+	smtpClient.Mail(m.From)
+	w, err := smtpClient.Data()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	_, err = w.Write([]byte(m.Message))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = w.Close()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	err = smtpClient.Quit()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
+}
+
 func GetNowUnix() int64 {
 	return time.Now().Unix()
+}
+
+func GetFileContent(src string) (body []byte, err error) {
+	_, err = os.Stat(src)
+	if err != nil {
+		return nil, err
+	}
+
+	body, err = ioutil.ReadFile(src)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
 }
