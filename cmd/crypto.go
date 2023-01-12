@@ -30,7 +30,6 @@ func pkcs7UnPadding(origData []byte) ([]byte, error) {
 	}
 	unpadding := int(origData[length-1])
 	return origData[:(length - unpadding)], nil
-
 }
 
 func aesEnCrypt(origData []byte, key []byte) ([]byte, error) {

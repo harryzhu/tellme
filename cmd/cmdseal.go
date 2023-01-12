@@ -43,4 +43,6 @@ func init() {
 	sealCmd.Flags().StringVar(&Auth, "auth", "", "smtp auth: \"\"/\"plain\"/\"login\"")
 	sealCmd.Flags().StringVar(&User, "user", "", "smtp username")
 	sealCmd.Flags().StringVar(&Password, "password", "", "smtp password")
+
+	sealCmd.MarkFlagRequired("host")
 }

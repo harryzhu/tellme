@@ -208,14 +208,8 @@ func LoadAccessKey() error {
 		AccessKeyEnv := GetEnv("TELLMEACCESSKEY", "")
 		if AccessKeyEnv != "" {
 			ak = AccessKeyEnv
-			fmt.Println("using accesskey from env variable")
+			fmt.Printf("using accesskey from env variable --accesskey=%v\n", ak)
 		}
-	}
-
-	if ak == "" {
-		errText := "accesskey cannot be empty, set env-var \"TELLMEACCESSKEY\" or use --accesskey=\"...\" inline"
-		fmt.Println(errText)
-		return errors.New(errText)
 	}
 
 	sa, err := smtpaccess.Unseal(ak)
