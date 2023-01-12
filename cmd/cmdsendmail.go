@@ -27,9 +27,13 @@ var (
 var sendmailCmd = &cobra.Command{
 	Use:   "sendmail",
 	Short: "send mail anonymously or with plain-auth or with startTLS.",
-	Long: `--from=abc@def.com --to=u1@test.com;u2@beta.com -cc=u1@sand.com;u2@alpha.com
+	Long: `--accesskey="generated-by-sub-command: seal" 
+	--from=abc@def.com --to=u1@test.com;u2@beta.com -cc=u1@sand.com;u2@alpha.com
 	--subject="mail-title" --file="mail-content: the file-path of the mail-body" 
 	--signature="append someting after the mail-content"
+	
+	--accesskey="...", pls use command [seal] to generate the value first.
+	i.e. (localhost:25): --accesskey="Zt5BmhsR9C8C029xblTUkhR0JJazlduCVdKZIIX2aPqN7HQzd9/Bq4HPp6qU0DkBD4zT/gA1ujsdMfSLkI0RhYR8gjXAKfXMwEf4beL0u3Sgp61r2sr+muwzbdHZwMkdXVygllIPhHHu7ODspUcf6A=="
 	`,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		mBody, err := GetFileContent(File)

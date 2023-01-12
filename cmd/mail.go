@@ -1,10 +1,7 @@
 package cmd
 
 import (
-	//"crypto/tls"
-	//"errors"
 	"fmt"
-	//"net/smtp"
 	"strings"
 )
 

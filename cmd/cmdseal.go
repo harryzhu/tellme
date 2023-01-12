@@ -24,7 +24,11 @@ var sealCmd = &cobra.Command{
 	Use:   "seal",
 	Short: "for generating --accesskey=, encrypt config details for security.",
 	Long: `--name="" --host="" --port="" --auth="" --user="" --password=""
-	--port default is 25, --auth default is None, alse support "plain" and "login",`,
+	--port default is 25, --auth default is None, alse support "plain" and "login",
+	i.e. use: seal --host="127.0.0.1" --name="smtp-mypc-localhost-25"
+	you will get:
+	--accesskey="Zt5BmhsR9C8C029xblTUkhR0JJazlduCVdKZIIX2aPqN7HQzd9/Bq4HPp6qU0DkBQ7H243gI2akWljyv1Jpsh6sAg/4vTE+IpMbSTV6LkC+IVR2zS1B6z+XOWqkBrSNOj/4hm0DedQPxGcZ434LVbQ=="
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		smtpaccess = NewSmtpAccess(Name, Host, Port, Auth, User, Password)
 		smtpaccess.Seal()
